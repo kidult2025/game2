@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-5ZKC2GWXZC"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-5ZKC2GWXZC');
+</script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-i18n="site_title">neooasisgame|Free Online Games Collection - Play Instantly </title>
+    <!-- SEO Meta Tags -->
+        
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'dark-bg': '#0f0f23',
+                        'dark-card': '#1a1a2e',
+                        'purple-glow': '#8b5cf6',
+                        'game-hover': '#16213e'
+                    },
+                    animation: {
+                        'pulse-glow': 'pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'float': 'float 6s ease-in-out infinite',
+                        'glow': 'glow 2s ease-in-out infinite alternate',
+                        'spin-slow': 'spin 3s linear infinite'
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-10px) rotate(2deg); }
+        }
+        @keyframes glow {
+            from { box-shadow: 0 0 20px #8b5cf6; }
+            to { box-shadow: 0 0 30px #a855f7, 0 0 40px #8b5cf6; }
+        }
+        .gradient-bg {
+            background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%);
+        }
+        .glass-effect {
+            backdrop-filter: blur(10px);
+            background: rgba(139, 92, 246, 0.1);
+        }
+        .game-card {
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        .game-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(139, 92, 246, 0.3);
+        }
+        .game-iframe {
+            width: 100%;
+            height: 600px;
+            border: none;
+            border-radius: 12px;
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 1000;
+        }
+        .modal.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .category-filter.active {
+            background: linear-gradient(135deg, #8b5cf6, #a855f7);
+            color: white;
+        }
+        .loading-spinner {
+            display: none;
+        }
+        .loading-spinner.active {
+            display: block;
+        }
+        /* Add loading animation styles */
+        .fade-in {
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        /* 侧边导航栏滚动条样式 */
+        .sidebar-scroll::-webkit-scrollbar {
+            width: 6px;
+        }
+        
+        .sidebar-scroll::-webkit-scrollbar-track {
+            background: rgba(26, 26, 46, 0.5); /* 与侧边栏背景色一致 */
+        }
+        
+        .sidebar-scroll::-webkit-scrollbar-thumb {
+            background: rgba(168, 85, 247, 0.3); /* 紫色半透明 */
+            border-radius: 3px;
+        }
+        
+        .sidebar-scroll::-webkit-scrollbar-thumb:hover {
+            background: rgba(168, 85, 247, 0.5); /* 悬停时加深 */
+        }
+        
+        /* Firefox 滚动条样式 */
+        .sidebar-scroll {
+            scrollbar-width: thin;
+            scrollbar-color: rgba(168, 85, 247, 0.3) rgba(26, 26, 46, 0.5);
+        }
+        /* 隐藏移动端菜单内容区滚动条 */
+        #mobile-menu-content::-webkit-scrollbar {
+            display: none;
+        }
+        #mobile-menu-content {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+</head>
+<body class="gradient-bg text-white min-h-screen main-flex-container">
+    <!-- Navigation Header -->
+    <header class="sticky top-0 z-50 glass-effect border-b border-purple-500/20">
+        <nav class="container px-4 py-4">
+            <div class="flex items-center justify-between">
+                <!-- Logo -->
+                <div class="flex items-center space-x-3">
+                    <div class="relative w-8 h-8 bg-gradient-to-r from-purple-500 to-pink-500 rounded-xl flex items-center justify-center shadow-lg transform hover:scale-110 transition-all duration-300 animate-glow">
+                        <!-- 游戏方向键图标 -->
+                        <div class="relative w-8 h-8">
+                            <!-- 上方向键 -->
+                            <div class="absolute top-0.5 left-1/2 transform -translate-x-1/2 w-2 h-2 bg-white rounded-sm" style="clip-path: polygon(50% 0%, 0% 100%, 100% 100%)"></div>
+                            <!-- 下方向键 -->
+                            <div class="absolute bottom-0.5 left-1/2 transform -translate-x-1/2 w-2 h-2 bg-white rounded-sm" style="clip-path: polygon(0% 0%, 100% 0%, 50% 100%)"></div>
+                            <!-- 左方向键 -->
+                            <div class="absolute left-0.5 top-1/2 transform -translate-y-1/2 w-2 h-2 bg-white rounded-sm" style="clip-path: polygon(0% 50%, 100% 0%, 100% 100%)"></div>
+                            <!-- 右方向键 -->
+                            <div class="absolute right-0.5 top-1/2 transform -translate-y-1/2 w-2 h-2 bg-white rounded-sm" style="clip-path: polygon(0% 0%, 0% 100%, 100% 50%)"></div>
+                        </div>
+                    </div>
+                    <h1 class="text-3xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent drop-shadow-lg" data-i18n="main_title">NeoOasis</h1>
+                </div>
+                <!-- Hamburger menu for mobile -->
+                <button id="mobile-menu-btn" class="lg:hidden flex items-center px-2 py-2 rounded-md text-purple-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-purple-400" aria-label="Open menu">
+                    <svg class="w-8 h-8" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/></svg>
+                </button>
+                <!-- Search Bar - 居中显示（移动端隐藏） -->
+                <div class="flex-1 flex justify-start ml-96 max-lg:hidden">
+                    <div class="relative max-w-md w-full">
+                        <input type="search" 
+                               id="searchInput"
+                               placeholder="Search games..." 
+                               class="w-full px-4 py-2 bg-white/10 backdrop-blur-md border border-purple-500/30 rounded-full text-white placeholder-gray-300 focus:outline-none focus:border-purple-400 focus:ring-2 focus:ring-purple-400/20" data-i18n-placeholder="search_placeholder">
+                        <button class="absolute right-2 top-1/2 transform -translate-y-1/2 text-purple-400 hover:text-purple-300" data-i18n="search_btn">🔍</button>
+                    </div>
+                </div>
+                <!-- 右侧占位区域，保持布局平衡（移动端隐藏） -->
+                <div class="flex items-center space-x-3 max-lg:hidden">
+                    <!-- 语言切换按钮 -->
+                    <div class="relative">
+                        <button id="langDropdownBtn" class="flex items-center" style="background:none;border:none;box-shadow:none;padding:0;color:inherit;font:inherit;">
+                            🌐 <span class="ml-2">Language</span>
+                            <svg class="ml-1 w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+                        </button>
+                        <div id="langDropdown" class="hidden absolute right-0 mt-2 w-36 bg-dark-card border border-purple-500/30 rounded-lg shadow-lg z-50">
+                            <button onclick="setLanguage('en')" class="block w-full text-left px-4 py-2 hover:bg-purple-500/20 transition-colors" data-i18n="lang_en">English</button>
+                            <button onclick="setLanguage('zh')" class="block w-full text-left px-4 py-2 hover:bg-purple-500/20 transition-colors" data-i18n="lang_zh">简体中文</button>
+                            <button onclick="setLanguage('ja')" class="block w-full text-left px-4 py-2 hover:bg-purple-500/20 transition-colors" data-i18n="lang_ja">日本語</button>
+                            <button onclick="setLanguage('ko')" class="block w-full text-left px-4 py-2 hover:bg-purple-500/20 transition-colors" data-i18n="lang_ko">한국어</button>
+                            <button onclick="setLanguage('fr')" class="block w-full text-left px-4 py-2 hover:bg-purple-500/20 transition-colors" data-i18n="lang_fr">Français</button>
+                            <button onclick="setLanguage('es')" class="block w-full text-left px-4 py-2 hover:bg-purple-500/20 transition-colors" data-i18n="lang_es">Español</button>
+                            <button onclick="setLanguage('de')" class="block w-full text-left px-4 py-2 hover:bg-purple-500/20 transition-colors" data-i18n="lang_de">Deutsch</button>
+                            <button onclick="setLanguage('ru')" class="block w-full text-left px-4 py-2 hover:bg-purple-500/20 transition-colors" data-i18n="lang_ru">Русский</button>
+                            <button onclick="setLanguage('ar')" class="block w-full text-left px-4 py-2 hover:bg-purple-500/20 transition-colors" data-i18n="lang_ar">العربية</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- 移动端菜单弹窗 -->
+            <div id="mobile-menu" class="fixed inset-0 z-50 flex-col items-start px-0 py-0 transition-all duration-300 transform -translate-y-full lg:hidden hidden bg-dark-card bg-opacity-100">
+                <div id="mobile-menu-content" class="flex flex-col gap-4 px-6 pb-8 pt-4 max-h-[90vh] overflow-y-auto scrollbar-hide bg-dark-card bg-opacity-100 rounded-lg shadow-2xl">
+                <!-- 移动端菜单顶部搜索框 -->
+                    <div class="relative max-w-md w-full mb-6">
+                        <input type="search" 
+                               id="mobileSearchInput"
+                               placeholder="Search games..." 
+                               class="w-full px-4 py-2 bg-white/10 backdrop-blur-md border border-purple-500/30 rounded-full text-white placeholder-gray-300 focus:outline-none focus:border-purple-400 focus:ring-2 focus:ring-purple-400/20" data-i18n-placeholder="search_placeholder">
+                        <button class="absolute right-2 top-1/2 transform -translate-y-1/2 text-purple-400 hover:text-purple-300" data-i18n="search_btn">🔍</button>
+                    </div>
+                    <div class="flex justify-between items-center w-full mb-6">
+                        <span class="text-2xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">NeoOasis</span>
+                        <button id="mobile-menu-close" class="text-white text-3xl focus:outline-none">&times;</button>
+                    </div>
+                    <!-- 分类标题 -->
+                    <div class="mb-2">
+                        <span class="text-lg font-semibold" data-i18n="category">分类</span>
+                    </div>
+                    <!-- 分类按钮挂载区 -->
+                    <nav id="mobile-menu-categories" class="flex flex-col space-y-2 w-full"></nav>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <div class="flex">
+        <!-- Sidebar Navigation -->
+        <aside class="hidden lg:block fixed left-0 top-20 w-16 hover:w-64 h-[calc(100vh-5rem)] bg-dark-card border-r border-purple-500/20 transition-all duration-300 ease-in-out overflow-hidden group z-40">
+            <div class="pt-4 px-0 h-full overflow-y-auto sidebar-scroll" style="overscroll-behavior: contain;">
+                <nav class="space-y-0 mt-2">
+                    <a href="index.html?category=home" class="category-filter flex items-center space-x-3 px-2 py-1 w-full text-left hover:bg-white/10 rounded-lg transition-colors group/item" data-category="home">
+                        <div class="w-10 h-10 flex items-center justify-center text-xl min-w-[2.5rem]">🏡</div>
+                        <span class="opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap" data-i18n="home">Home</span>
+                    </a>
+                    <button class="category-filter flex items-center space-x-3 px-2 py-1 w-full text-left hover:bg-white/10 rounded-lg transition-colors group/item" data-category="all">
+                        <div class="w-10 h-10 flex items-center justify-center text-xl min-w-[2.5rem]">✨</div>
+                        <span class="opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap" data-i18n="update">Update</span>
+                    </button>
+                    <button class="category-filter flex items-center space-x-3 px-2 py-1 w-full text-left hover:bg-white/10 rounded-lg transition-colors group/item" data-category="Recommended">
+                        <div class="w-10 h-10 flex items-center justify-center text-xl min-w-[2.5rem]">🔥</div>
+                        <span class="opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap" data-i18n="recommended_games">Recommended Games</span>
+                    </button>
+                    <button class="category-filter flex items-center space-x-3 px-2 py-1 w-full text-left hover:bg-white/10 rounded-lg transition-colors group/item" data-category="driving">
+                        <div class="w-10 h-10 flex items-center justify-center text-xl min-w-[2.5rem]">🚗</div>
+                        <span class="opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap" data-i18n="driving_games">Driving Games</span>
+                    </button>
+                    <button class="category-filter flex items-center space-x-3 px-2 py-1 w-full text-left hover:bg-white/10 rounded-lg transition-colors group/item" data-category="shooting">
+                        <div class="w-10 h-10 flex items-center justify-center text-xl min-w-[2.5rem]">🔫</div>
+                        <span class="opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap" data-i18n="shooting_games">Shooting Games</span>
+                    </button>
+                    <button class="category-filter flex items-center space-x-3 px-2 py-1 w-full text-left hover:bg-white/10 rounded-lg transition-colors group/item" data-category="multiplayer">
+                        <div class="w-10 h-10 flex items-center justify-center text-xl min-w-[2.5rem]">🧑‍🤝‍🧑</div>
+                        <span class="opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap" data-i18n="multiplayer_games">Multiplayer Games</span>
+                    </button>
+                    <button class="category-filter flex items-center space-x-3 px-2 py-1 w-full text-left hover:bg-white/10 rounded-lg transition-colors group/item" data-category="sports">
+                        <div class="w-10 h-10 flex items-center justify-center text-xl min-w-[2.5rem]">🏀</div>
+                        <span class="opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap" data-i18n="sports_games">Sports Games</span>
+                    </button>
+                    <button class="category-filter flex items-center space-x-3 px-2 py-1 w-full text-left hover:bg-white/10 rounded-lg transition-colors group/item" data-category="puzzle">
+                        <div class="w-10 h-10 flex items-center justify-center text-xl min-w-[2.5rem]">🧩</div>
+                        <span class="opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap" data-i18n="puzzle_games">Puzzle Games</span>
+                    </button>
+                    <button class="category-filter flex items-center space-x-3 px-2 py-1 w-full text-left hover:bg-white/10 rounded-lg transition-colors group/item" data-category="arcade">
+                        <div class="w-10 h-10 flex items-center justify-center text-xl min-w-[2.5rem]">🕹️</div>
+                        <span class="opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap" data-i18n="arcade_games">Arcade Games</span>
+                    </button>
+                    <button class="category-filter flex items-center space-x-3 px-2 py-1 w-full text-left hover:bg-white/10 rounded-lg transition-colors group/item" data-category="action">
+                        <div class="w-10 h-10 flex items-center justify-center text-xl min-w-[2.5rem]">⚔️</div>
+                        <span class="opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap" data-i18n="action_games">Action Games</span>
+                    </button>
+                    <button class="category-filter flex items-center space-x-3 px-2 py-1 w-full text-left hover:bg-white/10 rounded-lg transition-colors group/item" data-category="adventure">
+                        <div class="w-10 h-10 flex items-center justify-center text-xl min-w-[2.5rem]">🗺️</div>
+                        <span class="opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap" data-i18n="adventure_games">Adventure Games</span>
+                    </button>
+                    <button class="category-filter flex items-center space-x-3 px-2 py-1 w-full text-left hover:bg-white/10 rounded-lg transition-colors group/item" data-category="strategy">
+                        <div class="w-10 h-10 flex items-center justify-center text-xl min-w-[2.5rem]">🧠</div>
+                        <span class="opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap" data-i18n="strategy_games">Strategy Games</span>
+                    </button>
+                    <button class="category-filter flex items-center space-x-3 px-2 py-1 w-full text-left hover:bg-white/10 rounded-lg transition-colors group/item" data-category="simulator">
+                        <div class="w-10 h-10 flex items-center justify-center text-xl min-w-[2.5rem]">🏗️</div>
+                        <span class="opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap" data-i18n="simulator_games">Simulator Games</span>
+                    </button>
+                    <button class="category-filter flex items-center space-x-3 px-2 py-1 w-full text-left hover:bg-white/10 rounded-lg transition-colors group/item" data-category="rpg">
+                        <div class="w-10 h-10 flex items-center justify-center text-xl min-w-[2.5rem]">🐉</div>
+                        <span class="opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap" data-i18n="rpg_games">RPG Games</span>
+                    </button>
+                    <button class="category-filter flex items-center space-x-3 px-2 py-1 w-full text-left hover:bg-white/10 rounded-lg transition-colors group/item" data-category="clicker">
+                        <div class="w-10 h-10 flex items-center justify-center text-xl min-w-[2.5rem]">👆</div>
+                        <span class="opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap" data-i18n="clicker_games">Clicker Games</span>
+                    </button>
+                    <button class="category-filter flex items-center space-x-3 px-2 py-1 w-full text-left hover:bg-white/10 rounded-lg transition-colors group/item" data-category="kids">
+                        <div class="w-10 h-10 flex items-center justify-center text-xl min-w-[2.5rem]">👶</div>
+                        <span class="opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap" data-i18n="kids_games">Kids Games</span>
+                    </button>
+                    <button class="category-filter flex items-center space-x-3 px-2 py-1 w-full text-left hover:bg-white/10 rounded-lg transition-colors group/item" data-category="girl">
+                        <div class="w-10 h-10 flex items-center justify-center text-xl min-w-[2.5rem]">👧</div>
+                        <span class="opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap" data-i18n="girl_games">Girl Games</span>
+                    </button>
+                    <button class="category-filter flex items-center space-x-3 px-2 py-1 w-full text-left hover:bg-white/10 rounded-lg transition-colors group/item" data-category="horror">
+                        <div class="w-10 h-10 flex items-center justify-center text-xl min-w-[2.5rem]">👻</div>
+                        <span class="opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap" data-i18n="horror_games">Horror Games</span>
+                    </button>
+                    <button class="category-filter flex items-center space-x-3 px-2 py-1 w-full text-left hover:bg-white/10 rounded-lg transition-colors group/item" data-category="io-games">
+                        <div class="w-10 h-10 flex items-center justify-center text-xl min-w-[2.5rem]">🌐</div>
+                        <span class="opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap" data-i18n="io_games">IO Games</span>
+                    </button>
+                    <button class="category-filter flex items-center space-x-3 px-2 py-1 w-full text-left hover:bg-white/10 rounded-lg transition-colors group/item" data-category="3d">
+                        <div class="w-10 h-10 flex items-center justify-center text-xl min-w-[2.5rem]">🎯</div>
+                        <span class="opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap" data-i18n="3d_games">3D Games</span>
+                    </button>
+                    <button class="category-filter flex items-center space-x-3 px-2 py-1 w-full text-left hover:bg-white/10 rounded-lg transition-colors group/item" data-category="mobile">
+                        <div class="w-10 h-10 flex items-center justify-center text-xl min-w-[2.5rem]">📱</div>
+                        <span class="opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap" data-i18n="mobile_games">Mobile Games</span>
+                    </button>
+                </nav>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="flex-1 p-6 lg:ml-16">
+            <!-- 游戏页面容器 -->
+            <div id="gamePage" class="hidden">
+                返回按钮和游戏标题
+                <div class="flex items-center justify-between mb-6">
+                    <button id="backToHome" class="flex items-center space-x-2 px-4 py-2 bg-purple-600 hover:bg-purple-700 rounded-lg transition-colors">
+                        <span>←</span>
+                        <span>Back to Games</span>
+                    </button>
+                    <h2 id="gamePageTitle" class="text-2xl font-bold text-purple-300"></h2>
+                </div>
+                
+                主要内容区域：左右分栏布局
+                <div class="flex gap-6">
+                    左侧：游戏窗口
+                    <div class="flex-1">
+                        游戏容器
+                        <div id="gamePageContainer" class="bg-dark-card rounded-xl overflow-hidden game-aspect-4-3">
+                            <iframe class="game-iframe"></iframe>
+                        </div>
+                        
+                        游戏信息区域
+                        <div class="mt-6 bg-dark-bg/50 rounded-lg p-4">
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                游戏描述
+                                <div>
+                                    <h4 class="text-lg font-bold text-purple-300 mb-2">Game Description</h4>
+                                    <p id="gamePageDescription" class="text-gray-300 leading-relaxed"></p>
+                                </div>
+                                游戏标签和信息
+                                <div>
+                                    <h4 class="text-lg font-bold text-purple-300 mb-2">Game Info</h4>
+                                    <div class="space-y-3">
+                                        <div>
+                                            <span class="text-sm text-gray-400">Categories:</span>
+                                            <div id="gamePageTags" class="flex flex-wrap gap-2 mt-1">
+                                                Tags will be loaded here
+                                            </div>
+                                        </div>
+                                        <div class="flex items-center space-x-4 text-sm">
+                                            <div class="flex items-center space-x-2">
+                                                <span class="w-2 h-2 bg-green-400 rounded-full"></span>
+                                                <span class="text-gray-300">Free to Play</span>
+                                            </div>
+                                            <div class="flex items-center space-x-2">
+                                                <span class="w-2 h-2 bg-blue-400 rounded-full"></span>
+                                                <span class="text-gray-300">No Download</span>
+                                            </div>
+                                            <div class="flex items-center space-x-2">
+                                                <span class="w-2 h-2 bg-purple-400 rounded-full"></span>
+                                                <span class="text-gray-300">Instant Play</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    右侧：同类游戏推荐
+                    右侧：同类游戏推荐
+                    <div class="w-80">
+                        <div class="bg-dark-bg/50 rounded-lg p-4">
+                            <h3 class="text-xl font-bold text-purple-300 mb-4">Similar Games</h3>
+                            <div id="similarGames" class="grid grid-cols-2 gap-3">
+                                同类游戏推荐将在这里显示
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div> 
+
+            <!-- 首页内容容器 -->
+            <div id="homePage">
+                <!-- Stats Section -->
+                <section class="mb-4">
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                        <div class="bg-gradient-to-r from-purple-600/20 to-pink-600/20 p-4 rounded-lg text-center">
+                            <div class="text-2xl font-bold text-purple-300" id="displayedGames" data-i18n="games_count">0</div>
+                            <div class="text-sm text-gray-300" data-i18n="games_label">Games</div>
+                        </div>
+                        <div class="bg-gradient-to-r from-blue-600/20 to-purple-600/20 p-4 rounded-lg text-center">
+                            <div class="text-2xl font-bold text-blue-300" data-i18n="free_label">Free</div>
+                            <div class="text-sm text-gray-300" data-i18n="no_download">No Download</div>
+                        </div>
+                        <div class="bg-gradient-to-r from-green-600/20 to-blue-600/20 p-4 rounded-lg text-center">
+                            <div class="text-2xl font-bold text-green-300" data-i18n="instant_label">Instant</div>
+                            <div class="text-sm text-gray-300" data-i18n="click_play">Click & Play</div>
+                        </div>
+                        <div class="bg-gradient-to-r from-orange-600/20 to-red-600/20 p-4 rounded-lg text-center">
+                            <div class="text-2xl font-bold text-orange-300" data-i18n="cross_platform">Cross-Platform</div>
+                            <div class="text-sm text-gray-300" data-i18n="any_device">Any Device</div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Category Title -->
+                <!-- 新增 New Games 模块 -->
+                <section class="mb-0">
+                    <h2 class="text-2xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent mb-4 flex items-center" ><span data-i18n="update">update</span>
+                        <a href="category-detail.html?category=all" class="ml-4 text-base font-normal text-white hover:text-purple-400 transition-colors leading-snug" style="cursor:pointer;position:relative;top:0.22em;" data-i18n="more">more&gt;&gt;</a>
+                    </h2>
+                    <div id="newGamesGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-6">
+                        <!-- 最新游戏卡片插入点 -->
+                    </div>
+                    <!-- 推荐游戏模块 -->
+                    <section class="mt-4">
+                      <h2 class="text-2xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent mb-4 flex items-center"><span data-i18n="recommended_games">Recommended Games</span><a href="category-detail.html?sort=newest" class="ml-4 text-base font-normal text-white hover:text-purple-400 transition-colors leading-snug" style="cursor:pointer;position:relative;top:0.22em;" data-i18n="more">more&gt;&gt;</a>
+                      </h2>
+                      <div id="recommendedGamesGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-6"></div>
+                    </section>
+                    <!-- 驾驶类游戏模块 -->
+                    <section class="mt-4">
+                      <h2 class="text-2xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent mb-4 flex items-center"><span data-i18n="driving_games">Driving Games</span><a href="category-detail.html?category=driving" class="ml-4 text-base font-normal text-white hover:text-purple-400 transition-colors leading-snug" style="cursor:pointer;position:relative;top:0.22em;" data-i18n="more">more&gt;&gt;</a>
+                      </h2>
+                      <div id="drivingGamesGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-6"></div>
+                    </section>
+                    <!-- 射击类游戏模块 -->
+                    <section class="mt-4">
+                      <h2 class="text-2xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent mb-4 flex items-center"><span data-i18n="shooting_games">Shooting Games</span><a href="category-detail.html?category=shooting" class="ml-4 text-base font-normal text-white hover:text-purple-400 transition-colors leading-snug" style="cursor:pointer;position:relative;top:0.22em;" data-i18n="more">more&gt;&gt;</a>
+                      </h2>
+                      <div id="shootingGamesGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-6"></div>
+                    </section>
+                     <!-- 3D游戏模块 -->
+                     <section class="mt-4">
+                        <h2 class="text-2xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent mb-4 flex items-center"><span data-i18n="3d_games">3D Games</span><a href="category-detail.html?category=3d" class="ml-4 text-base font-normal text-white hover:text-purple-400 transition-colors leading-snug" style="cursor:pointer;position:relative;top:0.22em;" data-i18n="more">more&gt;&gt;</a>
+                        </h2>
+                        <div id="3dGamesGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-6"></div>
+                      </section>
+                     <!-- 体育类游戏模块 -->
+                     <section class="mt-4">
+                        <h2 class="text-2xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent mb-4 flex items-center"><span data-i18n="sports_games">Sports Games</span><a href="category-detail.html?category=sports" class="ml-4 text-base font-normal text-white hover:text-purple-400 transition-colors leading-snug" style="cursor:pointer;position:relative;top:0.22em;" data-i18n="more">more&gt;&gt;</a>
+                        </h2>
+                        <div id="sportsGamesGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-6"></div>
+                      </section>
+                      <!-- 益智类游戏模块 -->
+                      <section class="mt-4">
+                        <h2 class="text-2xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent mb-4 flex items-center"><span data-i18n="puzzle_games">Puzzle Games</span><a href="category-detail.html?category=puzzle" class="ml-4 text-base font-normal text-white hover:text-purple-400 transition-colors leading-snug" style="cursor:pointer;position:relative;top:0.22em;" data-i18n="more">more&gt;&gt;</a>
+                        </h2>
+                        <div id="puzzleGamesGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-6"></div>
+                      </section>
+                      <!-- 动作类游戏模块 -->
+                      <section class="mt-4">
+                        <h2 class="text-2xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent mb-4 flex items-center"><span data-i18n="action_games">Action Games</span><a href="category-detail.html?category=action" class="ml-4 text-base font-normal text-white hover:text-purple-400 transition-colors leading-snug" style="cursor:pointer;position:relative;top:0.22em;" data-i18n="more">more&gt;&gt;</a>
+                        </h2>
+                        <div id="actionGamesGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-6"></div>
+                      </section>
+                      <!-- 冒险类游戏模块 -->
+                      <section class="mt-4">
+                        <h2 class="text-2xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent mb-4 flex items-center"><span data-i18n="adventure_games">Adventure Games</span><a href="category-detail.html?category=adventure" class="ml-4 text-base font-normal text-white hover:text-purple-400 transition-colors leading-snug" style="cursor:pointer;position:relative;top:0.22em;" data-i18n="more">more&gt;&gt;</a>
+                        </h2>
+                        <div id="adventureGamesGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-6"></div>
+                      </section>
+                      <!-- 策略类游戏模块 -->
+                      <section class="mt-4">
+                        <h2 class="text-2xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent mb-4 flex items-center"><span data-i18n="strategy_games">Strategy Games</span><a href="category-detail.html?category=strategy" class="ml-4 text-base font-normal text-white hover:text-purple-400 transition-colors leading-snug" style="cursor:pointer;position:relative;top:0.22em;" data-i18n="more">more&gt;&gt;</a>
+                        </h2>
+                        <div id="strategyGamesGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-6"></div>
+                      </section>
+                      <!-- 点击类游戏模块 -->
+                      <section class="mt-4">
+                        <h2 class="text-2xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent mb-4 flex items-center"><span data-i18n="clicker_games">Clicker Games</span><a href="category-detail.html?category=clicker" class="ml-4 text-base font-normal text-white hover:text-purple-400 transition-colors leading-snug" style="cursor:pointer;position:relative;top:0.22em;" data-i18n="more">more&gt;&gt;</a>
+                        </h2>
+                        <div id="clickerGamesGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-6"></div>
+                      </section>
+                      <!-- 女生类游戏模块 -->
+                      <section class="mt-4">
+                        <h2 class="text-2xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent mb-4 flex items-center"><span data-i18n="girl_games">Girl Games</span><a href="category-detail.html?category=girl" class="ml-4 text-base font-normal text-white hover:text-purple-400 transition-colors leading-snug" style="cursor:pointer;position:relative;top:0.22em;" data-i18n="more">more&gt;&gt;</a>
+                        </h2>
+                        <div id="girlGamesGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-6"></div>
+                      </section>
+                      <!-- 街机类游戏模块 -->
+                      <section class="mt-4">
+                        <h2 class="text-2xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent mb-4 flex items-center"><span data-i18n="arcade_games">Arcade Games</span><a href="category-detail.html?category=arcade" class="ml-4 text-base font-normal text-white hover:text-purple-400 transition-colors leading-snug" style="cursor:pointer;position:relative;top:0.22em;" data-i18n="more">more&gt;&gt;</a>
+                        </h2>
+                        <div id="arcadeGamesGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-6"></div>
+                      </section>
+                      <!-- IO类游戏模块 -->
+                      <section class="mt-4">
+                        <h2 class="text-2xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent mb-4 flex items-center"><span data-i18n="io_games">IO Games</span><a href="category-detail.html?category=io-games" class="ml-4 text-base font-normal text-white hover:text-purple-400 transition-colors leading-snug" style="cursor:pointer;position:relative;top:0.22em;" data-i18n="more">more&gt;&gt;</a>
+                        </h2>
+                        <div id="ioGamesGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-6"></div>
+                      </section>
+                </section>
+                <section class="mb-6">
+                    
+                    <p id="categoryDescription" class="text-gray-400 mt-2"></p>
+                </section>
+
+                <!-- Games Grid -->
+                <section class="mb-8">
+                    <div id="gamesGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-6 gap-6">
+                        <!-- Games will be loaded here -->
+                    </div>
+                </section>
+
+                <!-- Loading Spinner -->
+                <section class="text-center mb-4">
+                    <div id="loadingSpinner" class="loading-spinner hidden">
+                        <div class="inline-flex items-center space-x-2">
+                            <div class="w-8 h-8 border-4 border-purple-500/30 border-t-purple-500 rounded-full animate-spin"></div>
+                            <span class="text-purple-300">加载更多游戏...</span>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Pagination -->
+                <section id="paginationSection" class="mb-8">
+                    <div class="flex flex-col items-center space-y-4">
+                        <!-- Page Info -->
+                                                
+                        <!-- Pagination Controls -->
+                        <div class="flex items-center space-x-2">
+                                                        
+                            <!-- Page Numbers -->
+                            <div id="pageNumbers" class="flex items-center space-x-1">
+                                <!-- Page numbers will be generated here -->
+                            </div>
+                            
+                            
+                        </div>
+                        
+                                            </div>
+                </section>
+
+
+
+                <!-- Load More Button (Backup) -->
+                <section class="text-center">
+                    <button id="backToTop" class="fixed bottom-6 right-6 ml-2 bg-purple-600 text-white rounded-full w-12 h-12 flex items-center justify-center z-50" style="display:none;">
+                        <span class="text-lg">↑</span>
+                    </button>
+                </section>
+
+                <!-- End Message -->
+                <section class="text-center mt-8">
+                    <div id="endMessage" class="hidden">
+                        <div class="text-4xl mb-2">🎉</div>
+                        <p class="text-gray-400">All games loaded!</p>
+                    </div>
+                </section>
+            </main>
+    </div>
+
+       <footer class="bg-dark-card/50 backdrop-blur-sm border-t border-purple-500/20 mt-12">
+        <div class="container mx-auto px-4 py-8">
+            <div class="text-center">
+                <div class="flex items-center justify-center space-x-3 mb-4">
+                    <div class="flex items-center space-x-3">
+                        <div class="relative w-8 h-8 bg-gradient-to-r from-purple-500 to-pink-500 rounded-xl flex items-center justify-center shadow-lg transform hover:scale-110">
+                            <!-- 游戏方向键图标 -->
+                            <div class="relative w-8 h-8">
+                                <!-- 上方向键 -->
+                                <div class="absolute top-0.5 left-1/2 transform -translate-x-1/2 w-2 h-2 bg-white rounded-sm" style="clip-path: polygon(50% 0%, 0% 100%, 100% 100%)"></div>
+                                <!-- 下方向键 -->
+                                <div class="absolute bottom-0.5 left-1/2 transform -translate-x-1/2 w-2 h-2 bg-white rounded-sm" style="clip-path: polygon(0% 0%, 100% 0%, 50% 100%)"></div>
+                                <!-- 左方向键 -->
+                                <div class="absolute left-0.5 top-1/2 transform -translate-y-1/2 w-2 h-2 bg-white rounded-sm" style="clip-path: polygon(0% 50%, 100% 0%, 100% 100%)"></div>
+                                <!-- 右方向键 -->
+                                <div class="absolute right-0.5 top-1/2 transform -translate-y-1/2 w-2 h-2 bg-white rounded-sm" style="clip-path: polygon(0% 0%, 0% 100%, 100% 50%)"></div>
+                            </div>
+                        </div>
+                        <h1 class="text-3xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent drop-shadow-lg" data-i18n="main_title">
+                            NeoOasis
+                        </h1>
+                    </div>
+                    
+                    </span>
+                </div>
+                <p class="text-gray-400 mb-4" data-i18n="site_desc">The ultimate free online gaming platform, play premium games instantly without downloads!</p>
+                <div class="mt-4 text-xs text-gray-500">
+                    © 2025 <span data-i18n="main_title">NeoOasis</span> - <span data-i18n="footer_desc">All games are from third-party platforms</span>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <script src="js/game-handler.js"></script>
+    <script src="js/data-loader.js"></script>
+    <script src="js/ui-components.js"></script>
+    <script src="js/i18n.js"></script>
+    <script src="js/main.js"></script>
+    <button id="backToTop" style="display:none;">Back to Top</button>
+    <script>
+        // 语言下拉菜单交互
+        const langBtn = document.getElementById('langDropdownBtn');
+        const langDropdown = document.getElementById('langDropdown');
+        if(langBtn && langDropdown){
+            langBtn.addEventListener('click', function(e){
+                e.stopPropagation();
+                langDropdown.classList.toggle('hidden');
+            });
+            document.addEventListener('click', function(){
+                langDropdown.classList.add('hidden');
+            });
+            langDropdown.addEventListener('click', function(e){
+                e.stopPropagation();
+            });
+        }
+        window.uiComponents && window.uiComponents.initializeSidebarCategoryJump && window.uiComponents.initializeSidebarCategoryJump();
+        document.addEventListener('DOMContentLoaded', function() {
+            if(window.initI18n) window.initI18n();
+        });
+    </script>
+</body>
+</html>
+<!-- 示例分类按钮（请根据实际分类补充）-->
+<select id="itemsPerPage">
+</body>
+</html>

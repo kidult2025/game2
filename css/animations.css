@@ -1,0 +1,19 @@
+/* 动画样式文件 */
+@keyframes float {
+    0%, 100% { transform: translateY(0px) rotate(0deg); }
+    50% { transform: translateY(-10px) rotate(2deg); }
+}
+
+@keyframes glow {
+    from { box-shadow: 0 0 20px #8b5cf6; }
+    to { box-shadow: 0 0 30px #a855f7, 0 0 40px #8b5cf6; }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.fade-in {
+    animation: fadeIn 0.5s ease-in-out;
+}

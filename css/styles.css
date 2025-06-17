@@ -1,0 +1,215 @@
+/* 响应式基础样式 */
+html {
+  box-sizing: border-box;
+}
+*, *::before, *::after {
+  box-sizing: inherit;
+}
+body {
+  min-width: 0;
+  min-height: 0;
+}
+.gradient-bg {
+    background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%);
+}
+
+.glass-effect {
+    backdrop-filter: blur(10px);
+    background: rgba(139, 92, 246, 0.1);
+}
+
+.game-card {
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.game-card:hover {
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: 0 20px 40px rgba(139, 92, 246, 0.3);
+}
+
+.game-iframe {
+    width: 100%;
+    height: 600px;
+    border: none;
+    border-radius: 12px;
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.9);
+    z-index: 1000;
+}
+
+.modal.active {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.category-filter.active {
+    background: linear-gradient(135deg, #8b5cf6, #a855f7);
+    color: white;
+}
+
+.loading-spinner {
+    display: none;
+}
+
+.loading-spinner.active {
+    display: block;
+}
+
+/* 侧边导航栏滚动条样式 */
+.sidebar-scroll::-webkit-scrollbar {
+    width: 6px;
+}
+
+.sidebar-scroll::-webkit-scrollbar-track {
+    background: rgba(26, 26, 46, 0.5);
+}
+
+.sidebar-scroll::-webkit-scrollbar-thumb {
+    background: rgba(168, 85, 247, 0.3);
+    border-radius: 3px;
+}
+
+.sidebar-scroll::-webkit-scrollbar-thumb:hover {
+    background: rgba(168, 85, 247, 0.5);
+}
+
+/* Firefox 滚动条样式 */
+.sidebar-scroll {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(168, 85, 247, 0.3) rgba(26, 26, 46, 0.5);
+}
+.game-iframe {
+    width: 100%;
+    height: 600px;
+    border: none;
+    border-radius: 12px;
+}
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.9);
+    z-index: 1000;
+}
+.modal.active {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.category-filter.active {
+    background: linear-gradient(135deg, #8b5cf6, #a855f7);
+    color: white;
+}
+.loading-spinner {
+    display: none;
+}
+.loading-spinner.active {
+    display: block;
+}
+/* 侧边导航栏滚动条样式 */
+.sidebar-scroll::-webkit-scrollbar {
+    width: 6px;
+}
+.sidebar-scroll::-webkit-scrollbar-track {
+    background: rgba(26, 26, 46, 0.5);
+}
+.sidebar-scroll::-webkit-scrollbar-thumb {
+    background: rgba(168, 85, 247, 0.3);
+    border-radius: 3px;
+}
+.sidebar-scroll::-webkit-scrollbar-thumb:hover {
+    background: rgba(168, 85, 247, 0.5);
+}
+/* Firefox 滚动条样式 */
+.sidebar-scroll {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(168, 85, 247, 0.3) rgba(26, 26, 46, 0.5);
+}
+.bg-dark-card {
+    background: linear-gradient(135deg, #1a1a2e 100%);
+}
+
+/* RTL 支持 */
+[dir="rtl"] {
+    direction: rtl;
+    unicode-bidi: embed;
+}
+[dir="rtl"] .sidebar-scroll {
+    text-align: right;
+}
+/* 主要内容弹性容器 */
+.main-flex-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+@media (min-width: 1024px) {
+  .main-flex-container {
+    flex-direction: row;
+  }
+}
+
+/* 游戏画面自适应4:3比例容器 */
+.game-aspect-4-3 {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  background: #1a1a2e;
+  border-radius: 12px;
+  overflow: hidden;
+}
+.game-aspect-4-3 > .game-iframe {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  border-radius: 0;
+}
+
+@media (max-width: 640px) {
+  /* 统计卡片自适应宽度和内边距 */
+  .mb-4 .grid > div {
+    padding: 0.75rem !important;
+    border-radius: 0.5rem !important;
+  }
+  /* 统计卡片数字字体自适应 */
+  .mb-4 .grid .text-2xl {
+    font-size: 1.25rem !important;
+  }
+  /* 统计卡片标签字体自适应 */
+  .mb-4 .grid .text-sm {
+    font-size: 0.75rem !important;
+  }
+}
+
+/* 移动端细滚动条样式 */
+@media (max-width: 1024px) {
+  body, html {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(168, 85, 247, 0.3) rgba(26, 26, 46, 0.5);
+  }
+  body::-webkit-scrollbar, html::-webkit-scrollbar {
+    width: 6px;
+    background: rgba(26, 26, 46, 0.5);
+  }
+  body::-webkit-scrollbar-thumb, html::-webkit-scrollbar-thumb {
+    background: rgba(168, 85, 247, 0.3);
+    border-radius: 3px;
+  }
+  body::-webkit-scrollbar-thumb:hover, html::-webkit-scrollbar-thumb:hover {
+    background: rgba(168, 85, 247, 0.5);
+  }
+}
